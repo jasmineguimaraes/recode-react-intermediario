@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useSelector, useDispatch } from "react-redux";
+import { increment, decrement, log_in} from "./redux/actions";
+import AfazeresList from "./components/afazeresList";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const counter = useSelector((state) => state.counter);
+	const isLogged = useSelector((state) => state.isLogged);
+	const dispatch = useDispatch();
+
+	return (
+		<div className="App">
+			<br />
+			<h1>Counter {counter}</h1>
+			<button onClick={() => dispatch(decrement(5))}>-5</button>
+			<button onClick={() => dispatch(decrement(1))}>-</button>
+			<button onClick={() => dispatch(increment(1))}>+</button>
+			<button onClick={() => dispatch(increment(5))}>+5</button>
+			<br />
+			<br />
+
+			{isLogged ? (
+				<div>
+					<h3>Logged</h3>
+					<button onClick={() => dispatch(log_in())}>Log Out</button>
+					<br/>
+					<h1 style={{ textDecoration: 'underline' }}>Afazeres</h1>
+					<AfazeresList/>
+				</div>
+			) : (
+				<button onClick={() => dispatch(log_in())}>Log In</button>
+			)}
+		</div>
+	);
 }
 
 export default App;
